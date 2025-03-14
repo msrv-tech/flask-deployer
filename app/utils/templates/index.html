@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Установка Flask-приложения</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Настройка виртуальной машины</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.vm_name.label }}
+                {{ form.vm_name(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.vm_ip.label }}
+                {{ form.vm_ip(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.ssh_user.label }}
+                {{ form.ssh_user(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.ssh_key_path.label }}
+                {{ form.ssh_key_path(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.repo_url.label }}
+                {{ form.repo_url(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Запустить установку</button>
+        </form>
+    </div>
+</body>
+</html>
