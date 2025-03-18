@@ -1,36 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Установка Flask-приложения</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploy to Remote Server</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Настройка виртуальной машины</h1>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.vm_name.label }}
-                {{ form.vm_name(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.vm_ip.label }}
-                {{ form.vm_ip(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.ssh_user.label }}
-                {{ form.ssh_user(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.ssh_key_path.label }}
-                {{ form.ssh_key_path(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.repo_url.label }}
-                {{ form.repo_url(class="form-control") }}
-            </div>
-            <button type="submit" class="btn btn-primary">Запустить установку</button>
-        </form>
-    </div>
+    <h1>Deploy to Remote Server</h1>
+    <form method="POST" action="{{ url_for('deploy') }}">
+        {{ form.hidden_tag() }}  <!-- CSRF-токен -->
+        <div>
+            {{ form.server_ip.label }}<br>
+            {{ form.server_ip(size=32) }}<br>
+            {% for error in form.server_ip.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            <input type="submit" value="Deploy">
+        </div>
+    </form>
+
+    <!-- Отображение flash-сообщений -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
